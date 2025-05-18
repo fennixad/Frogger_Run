@@ -1,5 +1,7 @@
 using TMPro;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement2_5D : MonoBehaviour
 {
@@ -12,11 +14,13 @@ public class PlayerMovement2_5D : MonoBehaviour
     public float fuerzaSalto;
     private bool tocoSuelo = true;
     public float velocidadSprint;
+    private bool paused = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rotacionObjetivo = transform.rotation;
+        WinCon.winCon = false;
     }
 
     private void Update()
@@ -24,6 +28,7 @@ public class PlayerMovement2_5D : MonoBehaviour
         InputMovement();
         Salto();
         Aceleracion();
+        PauseGame();
     }
 
 
@@ -76,7 +81,14 @@ public class PlayerMovement2_5D : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, rotacionObjetivo, Time.deltaTime * suavizadoRotacion);
         }
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("WinCon"))
+        {
+            SceneManager.LoadScene(1);
+            WinCon.winCon = true;
+        }
+    }
     void OnCollisionEnter(Collision collision)
     {
          if (collision.gameObject.CompareTag("suelo"))
@@ -84,5 +96,12 @@ public class PlayerMovement2_5D : MonoBehaviour
              tocoSuelo = true;
          }
     }
+    void PauseGame()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
 
+        }
+    }
 }
