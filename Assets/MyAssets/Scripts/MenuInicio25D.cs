@@ -13,20 +13,9 @@ public class MenuInicio25D : MonoBehaviour
         menuConfirmarSalida = transform.GetChild(1).gameObject;
         menuVolver = transform.GetChild(0).gameObject;
 
-        if (WinCon.winCon == true)
-        {
-            menuVolver.SetActive(true);
-            menuHall.SetActive(false);
-            menuConfirmarSalida.SetActive(false);
-        } else
-        {
-            menuVolver.SetActive(false);
-            menuHall.SetActive(true);
-            menuConfirmarSalida.SetActive(false);
-        }
-
-
-
+        menuVolver.SetActive(false);
+        menuHall.SetActive(true);
+        menuConfirmarSalida.SetActive(false);
     }
     public void Jugar()
     {

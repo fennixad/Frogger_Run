@@ -14,13 +14,14 @@ public class PlayerMovement2_5D : MonoBehaviour
     public float fuerzaSalto;
     private bool tocoSuelo = true;
     public float velocidadSprint;
-    private bool paused = false;
+    private float time;
+    public TextMeshProUGUI timer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rotacionObjetivo = transform.rotation;
-        WinCon.winCon = false;
+        time = 0f;
     }
 
     private void Update()
@@ -29,6 +30,9 @@ public class PlayerMovement2_5D : MonoBehaviour
         Salto();
         Aceleracion();
         PauseGame();
+        time += Time.deltaTime;
+        TiempoJuego();
+        ColorTiempo();
     }
 
 
@@ -38,6 +42,24 @@ public class PlayerMovement2_5D : MonoBehaviour
         GiroPersonaje();
     }
 
+    void TiempoJuego()
+    {
+        timer.text = "" + (int)time;
+    }
+
+    void ColorTiempo()
+    {
+        if (time >= 10 && time <30)
+        {
+            timer.color = Color.yellow;
+        } else if (time >= 30 && time < 45)
+        {
+            timer.color = new Color(1f, 0.5f, 0f);
+        } else if (time >= 45)
+        {
+            timer.color = Color.red;
+        }
+    }
     void InputMovement()
     {
         movimientoHorizontal = Input.GetAxisRaw("Horizontal");
@@ -86,7 +108,6 @@ public class PlayerMovement2_5D : MonoBehaviour
         if (other.gameObject.CompareTag("WinCon"))
         {
             SceneManager.LoadScene(1);
-            WinCon.winCon = true;
         }
     }
     void OnCollisionEnter(Collision collision)
